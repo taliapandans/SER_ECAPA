@@ -101,19 +101,17 @@ else:
 	epoch = 1
 	s = ECAPAModel(**vars(args))
 
-# path_list = './data_list_k10/'
+# k-10
 train_setlist = ['data_train_1.txt', 'data_train_2.txt', 'data_train_3.txt', 'data_train_4.txt', 'data_train_5.txt', 
 			  'data_train_6.txt', 'data_train_7.txt', 'data_train_8.txt', 'data_train_9.txt', 'data_train_10.txt']
 eval_setlist = ['data_val_1.txt', 'data_val_2.txt', 'data_val_3.txt', 'data_val_4.txt', 'data_val_5.txt', 
 			 'data_val_6.txt', 'data_val_7.txt', 'data_val_8.txt', 'data_val_9.txt', 'data_val_10.txt']
-# train_setlist = ['data_train_7.txt', 'data_train_8.txt', 'data_train_9.txt', 'data_train_10.txt']
-# eval_setlist = ['data_val_7.txt', 'data_val_8.txt', 'data_val_9.txt', 'data_val_10.txt']
-# train_setlist = ["ses4_out_sf_data_train.txt"]
-# eval_setlist = ["ses4_out_sf_data_val.txt"]
+
 # for train_list in train_setlist:
 
 # early_stopping = EarlyStopping(patience=15, verbose=True)
 
+# session out
 # train_setlist = ["ses1_out_sf_data_train.txt", "ses2_out_sf_data_train.txt", "ses3_out_sf_data_train.txt","ses4_out_sf_data_train.txt", "ses5_out_sf_data_train.txt"]
 # eval_setlist = ["ses1_out_sf_data_val.txt", "ses2_out_sf_data_val.txt", "ses3_out_sf_data_val.txt", "ses4_out_sf_data_val.txt", "ses5_out_sf_data_val.txt"]
 
