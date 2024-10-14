@@ -50,7 +50,6 @@ class ECAPAModel(nn.Module):
 			loss += nloss.detach().cpu().numpy()
 			sys.stderr.write(time.strftime("%m-%d %H:%M:%S") + \
 			" [%2d] Lr: %5f, Training: %.2f%%, "    %(epoch, lr, 100 * (num / loader.__len__())) + \
-			# " Loss: %.5f, num: %2.2f, ACC: %2.2f%%, index: %2.2f, index*len(): %2.2f\r"        %(loss/(num), num, top1/index*len(labels), index, index*len(labels)))
 			" Loss: %.5f, ACC: %2.2f%%\r"        %(loss/(num), top1/index*len(labels)))
 			sys.stderr.flush()
 		sys.stdout.write("\n")
@@ -65,9 +64,6 @@ class ECAPAModel(nn.Module):
 		for line in lines:
 			labels.append(int(line.split()[0]))
 			files.append(line.split()[1])
-		# setfiles = list(set(([line.split()[1] for line in lines])))
-		# labels = list(set(([line.split()[0] for line in lines])))
-		# setfiles.sort()
 		index_dict = {filename: index for index, filename in enumerate(files)}
 
 		setfiles = list(set(files))
@@ -93,8 +89,6 @@ class ECAPAModel(nn.Module):
 			data_2 = torch.FloatTensor(feats).cuda()
 			# data_2 = torch.FloatTensor(feats)
 
-			label_list  = []
-			# label = labels[idx]
 			label = torch.tensor([int(labels[idx])]).cuda()
 
 			# Speaker embeddings
