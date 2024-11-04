@@ -8,6 +8,7 @@ import argparse, glob, os, torch, warnings, time
 from tools import *
 from dataLoader import train_loader
 from ECAPAModel import ECAPAModel
+# from pytorchtools import EarlyStopping
 
 parser = argparse.ArgumentParser(description = "ECAPA_trainer")
 ## Training Settings
@@ -28,7 +29,7 @@ parser.add_argument('--train_path', type=str,   default="./data/CremaD",        
 parser.add_argument('--eval_path',  type=str,   default="./data/CremaD",                    help='The path of the evaluation data, eg:"/data08/VoxCeleb1/test/wav" in my case')
 parser.add_argument('--musan_path', type=str,   default="./musan_split",                    help='The path to the MUSAN set, eg:"/data08/Others/musan_split" in my case')
 parser.add_argument('--rir_path',   type=str,   default="./RIRS_NOISES/simulated_rirs",     help='The path to the RIR set, eg:"/data08/Others/RIRS_NOISES/simulated_rirs" in my case')
-parser.add_argument('--save_path',  type=str,   default="./test_cremad_init",                                        help='Path to save the score.txt and models')
+parser.add_argument('--save_path',  type=str,   default="./cremad_emb1_4emo_k10/AAM/freeze/V1O",                                        help='Path to save the score.txt and models')
 # parser.add_argument('--save_path',  type=str,   default="./cremad_emb1_6emo/freeze/V3",                                     help='Path to save the score.txt and models')
 # parser.add_argument('--initial_model',  type=str,   default="",                                          help='Path of the initial_model')
 # parser.add_argument('--initial_model',  type=str,   default="./ECAPA_variations/V2/v21/exps/exp1/model_0120.model",                                          help='Path of the initial_model')
@@ -71,14 +72,11 @@ if args.eval == True:
 	with open('V21_model4.csv', 'w') as output:
 		output.writelines('true_label,pred_label,file_name,embeddings\n')
 		for idx in range(len(pred_label)):
-			output.writelines(str(true_label[idx]) + ',' + str(pred_label[idx]) + ',' + str(file_name[idx]) + ',' + str(embeddings[idx]) + '\n')
-			# output.writelines(str(true_label[idx]) + ',' + str(pred_label[idx]) + '\n')
+			# output.writelines(str(true_label[idx]) + ',' + str(pred_label[idx]) + ',' + str(file_name[idx]) + ',' + str(embeddings[idx]) + '\n')
+			output.writelines(str(true_label[idx]) + ',' + str(pred_label[idx]) + '\n')
 			
 	print("ACC %2.2f%%"%(acc_score))
-	## 6 emo
 	# target_names = ['0', '1', '2', '3', '4', '5']
-
-	## 4 emo
 	target_names = ['0', '1', '2', '3']
 	print(classification_report(true_label, pred_label, target_names=target_names))
         
@@ -112,15 +110,20 @@ else:
 # eval_setlist = ["ses1_out_sf_data_val.txt", "ses2_out_sf_data_val.txt", "ses3_out_sf_data_val.txt", "ses4_out_sf_data_val.txt", "ses5_out_sf_data_val.txt"]
 
 # ------- CREMAD ---------
-train_setlist = ['k1_train_list.txt', 'k2_train_list.txt', 'k3_train_list.txt', 'k4_train_list.txt', 'k5_train_list.txt']
-eval_setlist = ['k1_val_list.txt','k2_val_list.txt', 'k3_val_list.txt', 'k4_val_list.txt', 'k5_val_list.txt']
+# train_setlist = ['k1_train_list.txt', 'k2_train_list.txt', 'k3_train_list.txt', 'k4_train_list.txt', 'k5_train_list.txt']
+# eval_setlist = ['k1_val_list.txt','k2_val_list.txt', 'k3_val_list.txt', 'k4_val_list.txt', 'k5_val_list.txt']
+
+train_setlist = ['k1_train_list.txt', 'k2_train_list.txt', 'k3_train_list.txt', 'k4_train_list.txt', 'k5_train_list.txt',
+				 'k6_train_list.txt', 'k7_train_list.txt', 'k8_train_list.txt', 'k9_train_list.txt', 'k10_train_list.txt']
+eval_setlist = ['k1_val_list.txt','k2_val_list.txt', 'k3_val_list.txt', 'k4_val_list.txt', 'k5_val_list.txt',
+				'k6_val_list.txt', 'k7_val_list.txt', 'k8_val_list.txt', 'k9_val_list.txt', 'k10_val_list.txt']
 
 for i in range(len(train_setlist)):
 	# train_list_path = "./iemocap_data_list/data_list_5fold/" + train_setlist[i]
 	# eval_list_path = "./iemocap_data_list/data_list_5fold/" + eval_setlist[i]
 
-	train_list_path = "./cremad_datalist/datalist_k5_fold_sp_independent/4_emo/" + train_setlist[i]
-	eval_list_path = "./cremad_datalist/datalist_k5_fold_sp_independent/4_emo/" + eval_setlist[i]
+	train_list_path = "./cremad_datalist/datalist_k10_fold_sp_dependent/" + train_setlist[i]
+	eval_list_path = "./cremad_datalist/datalist_k10_fold_sp_dependent/" + eval_setlist[i]
 
 	print("train list: ", train_list_path)
 	print("eval list: ", eval_list_path)
